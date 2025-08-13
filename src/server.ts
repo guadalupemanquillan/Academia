@@ -37,6 +37,7 @@ app.use(
 
 /**
  * Handle all other requests by rendering the Angular application.
+ * This ensures that all routes are handled by Angular, including /dashboard
  */
 app.use((req, res, next) => {
   angularApp

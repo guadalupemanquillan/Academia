@@ -1,0 +1,43 @@
+<div class="d-flex align-items-center justify-content-center vh-100"
+  style="background: linear-gradient(100deg, #6589d8 0%, #0d0d58 100%)">
+  <div class="p-4 rounded-4 shadow-lg bg-primary bg-opacity-75"
+    style="max-width: 360px; width: 100%; backdrop-filter: blur(12px);">
+    <h3 class="text-white text-center mb-4 fw-semibold">Bienvenido</h3>
+    
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger mb-3" role="alert">
+      {{ errorMessage }}
+    </div>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="mb-3">
+        <input type="text"
+          formControlName="username"
+          class="form-control form-control-lg rounded-3 border-0 shadow-sm bg-white bg-opacity-10 text-white"
+          placeholder="Usuario" 
+          autocomplete="username" />
+        <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" 
+             class="text-warning small mt-1">
+          Usuario es requerido
+        </div>
+      </div>
+      <div class="mb-4">
+        <input type="password"
+          formControlName="password"
+          class="form-control form-control-lg rounded-3 border-0 shadow-sm bg-white bg-opacity-10 text-white"
+          placeholder="Contraseña" 
+          autocomplete="current-password" />
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" 
+             class="text-warning small mt-1">
+          Contraseña es requerida
+        </div>
+      </div>
+      <button type="submit" 
+              class="btn btn-dark w-100 btn-lg rounded-3 fw-semibold"
+              [disabled]="loginForm.invalid || loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ loading ? 'Ingresando...' : 'Ingresar' }}
+      </button>
+    </form>
+  </div>
+</div>
