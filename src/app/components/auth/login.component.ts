@@ -28,17 +28,16 @@ export class LoginComponent {
 
   login(): void {
     if (this.loginForm.invalid) return;
-    
+
     this.loading = true;
     this.errorMessage = '';
-    
+
     const { username, password } = this.loginForm.value;
-    
+
     console.log('Intentando login con:', { username, password });
-    
+
     this.authService.login(username, password).subscribe({
       next: (response) => {
-        console.log('Login exitoso, token recibido:', response.token ? 'Sí' : 'No');
         if (isPlatformBrowser(this.platformId)) {
           this.router.navigate(['/dashboard']);
         }
@@ -47,7 +46,7 @@ export class LoginComponent {
       error: (err: any) => {
         console.error('Error de login:', err);
         this.loading = false;
-        
+
         if (err.status === 0) {
           this.errorMessage = 'Error de conexión. Verifica que la API esté ejecutándose en el puerto 8080.';
         } else if (err.status === 400) {

@@ -19,11 +19,11 @@ export class AuthInterceptor implements HttpInterceptor {
     private authService: AuthService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this.authService.getToken();
-    
+
     if (token) {
       request = request.clone({
         setHeaders: {
@@ -35,8 +35,6 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          // Token expirado o inválido
-          console.log('Token inválido o expirado, cerrando sesión');
           this.authService.logout();
           if (isPlatformBrowser(this.platformId)) {
             this.router.navigate(['/login']);
